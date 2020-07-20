@@ -1,5 +1,5 @@
 class DataConfig(object):
-    data_path = "/storage/hpc_tanel/sdc"
+    data_path = "/home/ec2-user/SageMaker/data"
     data_name = "gray_diff2"
     img_height = 192
     img_width = 256

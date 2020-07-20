@@ -114,7 +114,7 @@ def make_hsv_grayscale_diff_data(path, num_channels=2):
 if __name__ == "__main__":
     config = DataConfig()
     data_path = config.data_path
-    row, col = config.height, config.width
+    row, col = config.img_height, config.img_width
 
     print "Pre-processing phase 1 data..."
     X_train, y_train = make_hsv_grayscale_diff_data("data/train_round1.txt", 4)

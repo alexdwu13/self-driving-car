@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import argparse
 import numpy as np
 import os
-from sklearn.cross_validation import KFold
+from sklearn.model_selection import KFold
 from os import path
 from collections import defaultdict
 import time
@@ -30,7 +30,7 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 # Main Program
 # ----------------------------------------------------------------------------------------
-def main():
+def main(args):
     # Parse arguments
     parser = argparse.ArgumentParser(description="Testing Udacity SDC data")
     parser.add_argument('--dataset', type=str, help='dataset folder with csv and image folders')
@@ -40,7 +40,7 @@ def main():
     parser.add_argument('--nb-epoch', type=int, help='# of training epoch')
     parser.add_argument('--camera', type=str, default='center', help='camera to use, default is center')
     parser.add_argument('--batch_size', type=int, default=32, help='training batch size')
-    args = parser.parse_args()
+    args = parser.parse_args(args)
 
     # Model and data gen args
     # ---------------------------------------------------------------------------------
@@ -94,6 +94,7 @@ def main():
         time_list_train = []
         time_list_test = []
         for j in unique_list_train:
+            print(j)
             time_list_train.append(range(timebreak_start[j-1],timebreak_end[j-1]+1))
                     
         time_list_train = [val for sublist in time_list_train for val in sublist]
@@ -144,8 +145,10 @@ def main():
         callbacks = [EarlyStopping(monitor='val_loss', patience=3, verbose=0), 
                     ModelCheckpoint(filepath=os.path.join('weights_HMB_' + str(num_fold) + '.hdf5'), 
                     monitor='val_loss', verbose=0, save_best_only=True)]
-        model.fit_generator(train_generator, samples_per_epoch=64000, nb_epoch=nb_epoch,verbose=1,
-                    callbacks=callbacks, validation_data=val_generator,nb_val_samples=1600)
+        
+        #import pdb; pdb.set_trace()
+        model.fit_generator(train_generator, steps_per_epoch=64000, epochs=nb_epoch,verbose=1,
+                    callbacks=callbacks, validation_data=val_generator,validation_steps=1600)
 
         print('kfold model successfully trained...')
                 
@@ -214,4 +217,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])

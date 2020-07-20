@@ -67,10 +67,10 @@ def kfold_cross(data):
             timebreak_end.append(int(data[i-1,0]))
             timebreak_start.append(int(data[i,0]))
     timebreak_end.append(int(data[-1:,0]))
-    unique_times = range(1,76)  # 75 is # of timesections in Dataset1 and Dataset 2 combined
+    unique_times = range(1, 6) #76)  # 75 is # of timesections in Dataset1 and Dataset 2 combined
     list_r = [6,9,15,29,38,42,47,52,58,68,69,70] # Remove these timesections from training based on analysis
-    for i in list_r:
-        unique_times.remove(i)
+#     for i in list_r:
+#         unique_times.remove(i)
 
     return timebreak_start, timebreak_end, unique_times
 
